@@ -12,7 +12,7 @@ public class JDBC {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Database driver not found!", e);
+            System.out.println("Database driver not found!"+ e);
         }
         System.out.println("Connected");
     }

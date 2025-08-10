@@ -1,4 +1,3 @@
-<%@ page import="model.User" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -14,6 +13,7 @@
 
 </head>
 <body>
+
 <br>
 <div class="menu-container">
     <div class="header">
@@ -22,7 +22,7 @@
             <div class="logo" style=" width: 100px;
             height: 100px;
             border-radius: 50%;
-            background-image: url('${pageContext.request.contextPath}/IMGs/logo.png'); /* Ensure correct path */
+            background-image: url('../IMGs/header.png'); /* Ensure correct path */
             background-size: cover;
             background-position: center;
             margin-right: 10px;
@@ -32,11 +32,11 @@
 
         <!-- User Dropdown -->
         <div class="dropdown">
-            <button class="dropbtn">▼ ${user.firstName} ${user.lastName}</button>
+            <button class="dropbtn">▼ ${user.user_name}</button>
             <div class="dropdown-content">
-                <a href="<%=request.getContextPath()%>/logoutServlet">Change User (Logout)</a>
+                <a href="<%=request.getContextPath()%>/login">Change User (Logout)</a>
             </div>
-            <span class="user-info">Logged in as: <p style="display: inline">${user.roleId == 0 ? 'Principal' : (user.roleId == 1 ? 'Teacher' : (user.roleId == 2 ? 'Student' : 'Unknown Role'))}</p>
+            <span class="user-info">Logged in as: <p style="display: inline">${user.role_id == 0 ? 'Principal' : (user.role_id == 1 ? 'Teacher' : (user.role_id == 2 ? 'Student' : 'Unknown Role'))}</p>
 
         </span>
         </div>
@@ -44,7 +44,7 @@
     <div class="dropdown">
         <button class="dropbtn">Student Menu ▼</button>
         <div class="dropdown-content">
-            <a href="${pageContext.request.contextPath}/studServlet"> View Students</a> <!-- Trigger the function -->
+            <a href="#" onclick="viewStudents()">View Students</a> <!-- Trigger the function -->
         </div>
     </div>
 
@@ -52,8 +52,10 @@
     <div class="dropdown">
         <button class="dropbtn">Teacher Menu ▼</button>
         <div class="dropdown-content">
-            <a href="${pageContext.request.contextPath}/viewTeachers">View Teachers</a>
-            <a href="${pageContext.request.contextPath}/addTeacher" >Add Teacher</a>
+            <a href="#" onclick="viewTeachers()">View Teachers</a>
+            <a href="${pageContext.request.contextPath}/getAllStds?action=getStds" >Add Teacher</a>
+            <a href="#" onclick="">Allocate Subjects</a>
+            <a href="#" onclick="removeTeacherForm()">Remove Teacher</a>
         </div>
     </div>
 
@@ -61,10 +63,28 @@
     <div class="dropdown">
         <button class="dropbtn">School Menu ▼</button>
         <div class="dropdown-content">
-            <a href="${pageContext.request.contextPath}/sclServlet">Add Stds/Subs to School</a>
+            <a href="#" onclick="loadStdSubForm()">Add Stds to School</a>
+            <a href="#" onclick="viewStdSub()">View Stds and Subs</a>
         </div>
     </div>
 </div>
+<div class="main-content">
+    <div id="output">
+        <h3 style="color:saddlebrown;">
+            ${param.msg != null ? param.msg : ""}
+        </h3>
+        <!-- Output will be displayed here -->
+    </div>
+</div>
+<script>
+
+    function addTeacher() {
+        fetch("/getAllStds?action=getStds,{method='GET'}");
+    }
+    function viewTeachers() {
+        window.location.href = "/viewTeachers"; // Redirect to the servlet
+    }
+</script>
 </body>
 <footer class="footer">&copy; 2025 School Management System. All rights reserved.</footer>
 </html>
